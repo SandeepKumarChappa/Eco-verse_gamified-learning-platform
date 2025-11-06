@@ -6,6 +6,8 @@ import { Progress } from "@/components/ui/progress";
 import { Bell, BarChart3, User, Share2, Copy, CheckCircle2, TrendingUp, Trophy, GamepadIcon, BookOpen, Target, Award } from "lucide-react";
 import { createPortal } from "react-dom";
 import { Link } from "wouter";
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
+import { useInView } from "framer-motion";
 
 const tabs = [
   "Profile",
@@ -90,9 +92,14 @@ export default function StudentAppShell() {
           </div>
 
           {/* Tab Navigation */}
-          <div className="flex gap-1 p-1 bg-white/5 rounded-lg mb-6">
+          <motion.div
+            className="flex gap-1 p-1 bg-white/5 rounded-lg mb-6"
+            initial={{ opacity: 0, y: -30, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
             {tabs.map((tabName, index) => (
-              <button
+              <motion.button
                 key={tabName}
                 onClick={() => setTab(index)}
                 className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-all ${
@@ -100,13 +107,37 @@ export default function StudentAppShell() {
                     ? 'bg-white/20 text-white shadow-lg'
                     : 'text-white/70 hover:text-white hover:bg-white/10'
                 }`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  backgroundColor: tab === index ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+                  color: tab === index ? '#ffffff' : 'rgba(255, 255, 255, 0.7)',
+                  boxShadow: tab === index ? '0 4px 12px rgba(255, 255, 255, 0.15)' : 'none'
+                }}
+                transition={{
+                  duration: 0.3,
+                  delay: index * 0.1,
+                  backgroundColor: { duration: 0.2 },
+                  color: { duration: 0.2 },
+                  boxShadow: { duration: 0.2 }
+                }}
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: '0 6px 20px rgba(255, 255, 255, 0.2)',
+                  transition: { duration: 0.2 }
+                }}
+                whileTap={{
+                  scale: 0.95,
+                  transition: { duration: 0.1 }
+                }}
               >
                 {tabName === 'Profile' && <User className="inline w-4 h-4 mr-2" />}
                 {tabName === 'Progress' && <BarChart3 className="inline w-4 h-4 mr-2" />}
                 {tabName}
-              </button>
+              </motion.button>
             ))}
-          </div>
+          </motion.div>
         </div>
 
         {/* Tab Content */}

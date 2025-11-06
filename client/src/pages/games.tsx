@@ -94,6 +94,7 @@ export default function GamesPage() {
         </div>
 
       {/* Categories */}
+      {false && (
       <div className="mt-6">
         <Tabs value={category} onValueChange={(v)=>setCategory(v as any)}>
           <TabsList className="bg-white/10 backdrop-blur-sm border border-white/20">
@@ -126,6 +127,7 @@ export default function GamesPage() {
           </TabsContent>
         </Tabs>
       </div>
+      )}
       </div>
     </div>
   );

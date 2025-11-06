@@ -92,7 +92,7 @@ export default function Home() {
           <div className="lg:col-span-3 xl:col-span-4 space-y-6 text-center lg:text-left pl-12 lg:pl-0 relative z-30">
             <div className="space-y-4">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-                ECO-GENIUS<br />
+                ECO-VERSE<br />
                 <span className="text-earth-cyan">ACADEMY</span>
               </h1>
               <p className="text-earth-muted text-base md:text-lg leading-relaxed max-w-md mx-auto lg:mx-0">
@@ -100,14 +100,15 @@ export default function Home() {
                 Become a Planet Hero.
               </p>
             </div>
-            <Button 
-              onClick={handleWatchVideo}
-              className="bg-earth-orange hover:bg-earth-orange-hover px-8 py-4 text-white font-semibold rounded-lg flex items-center space-x-3 relative overflow-hidden transition-all duration-300 hover:translate-y-[-2px] hover:shadow-orange"
-              data-testid="button-watch-video"
-            >
-              <Play className="h-4 w-4" />
-              <span>START YOUR JOURNEY</span>
-            </Button>
+            <Link href="/learn">
+              <Button
+                className="bg-earth-orange hover:bg-earth-orange-hover px-8 py-4 text-white font-semibold rounded-lg flex items-center space-x-3 relative overflow-hidden transition-all duration-300 hover:translate-y-[-2px] hover:shadow-orange"
+                data-testid="button-watch-video"
+              >
+                <Play className="h-4 w-4" />
+                <span>START YOUR JOURNEY</span>
+              </Button>
+            </Link>
           </div>
 
           {/* 3D Globe */}

@@ -54,7 +54,7 @@ export function AppHamburger() {
           <Menu className="h-5 w-5 text-white" />
         </button>
       </SheetTrigger>
-      <SheetContent side="left" className="bg-[var(--earth-card)] border-[var(--earth-border)] text-white">
+      <SheetContent side="left" className="bg-[var(--earth-card)] text-white">
         <SheetHeader>
           <SheetTitle>Menu</SheetTitle>
         </SheetHeader>
@@ -106,6 +106,11 @@ export function AppHamburger() {
           <SheetClose asChild>
             <Link href="/games">
               <Button className="w-full justify-start rounded-2xl bg-white text-[var(--foreground)] hover:bg-white/90">Games</Button>
+            </Link>
+          </SheetClose>
+          <SheetClose asChild>
+            <Link href="/learn">
+              <Button className="w-full justify-start rounded-2xl bg-white text-[var(--foreground)] hover:bg-white/90">Learn</Button>
             </Link>
           </SheetClose>
           <SheetClose asChild>

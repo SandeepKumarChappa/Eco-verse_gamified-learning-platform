@@ -13,15 +13,14 @@ type AuthContextValue = {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [role, setRoleState] = useState<Role>(null);
-  const [username, setUsername] = useState<string | null>(null);
-
-  useEffect(() => {
+  const [role, setRoleState] = useState<Role>(() => {
     const saved = localStorage.getItem("app.role");
-    if (saved) setRoleState(saved as Role);
-  const u = localStorage.getItem("app.username");
-  if (u) setUsername(u);
-  }, []);
+    return (saved as Role) || null;
+  });
+  const [username, setUsername] = useState<string | null>(() => {
+    const u = localStorage.getItem("app.username");
+    return u || null;
+  });
 
   const setRole = (r: Role) => {
     setRoleState(r);

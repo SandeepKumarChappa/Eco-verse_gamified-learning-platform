@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { ChevronUp, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLocation } from 'wouter';
 
 interface TopicCard {
   id: string;
@@ -73,10 +74,11 @@ export function TopicCards() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollUp, setCanScrollUp] = useState(false);
   const [canScrollDown, setCanScrollDown] = useState(true);
+  const [, setLocation] = useLocation();
 
   const handleTopicClick = (topicId: string) => {
     console.log(`Navigate to topic: ${topicId}`);
-    // TODO: Implement navigation to topic page
+    setLocation(`/games?topic=${topicId}`);
   };
 
   const scrollUp = () => {

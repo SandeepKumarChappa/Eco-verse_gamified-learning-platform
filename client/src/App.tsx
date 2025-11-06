@@ -13,6 +13,7 @@ import SignInPage from "@/pages/signin";
 import SignUpPage from "@/pages/signup";
 import GamesPage from "@/pages/games";
 import GamePlayPage from "./pages/game-play";
+import LearnPage from "@/pages/learn";
 import QuizzesPage from "@/pages/quizzes";
 import LeaderboardPage from "@/pages/leaderboard";
 import TasksPage from "@/pages/tasks";
@@ -71,6 +72,11 @@ function Router() {
           <GamesPage />
         </StudentOrTeacherRoute>
       </Route>
+      <Route path="/learn">
+        <StudentOrTeacherRoute>
+          <LearnPage />
+        </StudentOrTeacherRoute>
+      </Route>
       <Route path="/quizzes">
         <StudentOrTeacherRoute>
           <QuizzesPage />
@@ -126,7 +132,7 @@ function App() {
             <AppHamburger />
           </div>
           {/* Safe area to prevent content underlapping the hamburger on small screens */}
-          <div className="pl-16 md:pl-6">
+          <div className="relative">
             <Router />
           </div>
         </TooltipProvider>
