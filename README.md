@@ -1,4 +1,4 @@
-# EcoVision - Gamified Environmental Platform
+<!-- # EcoVision - Gamified Environmental Platform
 
 EcoVision is a comprehensive gamified learning platform designed to promote environmental awareness and sustainable practices among students and educational institutions. The platform combines interactive tasks, assignments, quizzes, and engaging mini-games to create an immersive eco-learning experience.
 
@@ -152,4 +152,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Made with 💚 for a sustainable future**
-
+ -->
