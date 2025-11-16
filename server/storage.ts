@@ -3,9 +3,6 @@ import { randomUUID } from "crypto";
 import fs from "fs";
 import path from "path";
 
-// modify the interface with any CRUD methods
-// you might need
-
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;

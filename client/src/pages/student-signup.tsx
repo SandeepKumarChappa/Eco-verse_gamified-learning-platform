@@ -437,7 +437,7 @@ function PhotoInput({ label, value, onChange }: { label: string; value: string; 
   );
 }
 
-function SchoolPicker({ value, onChange, helper }: { value: string; onChange: (v: string) => void; helper?: string }) {
+const SchoolPicker = ({ value, onChange }: { value: string; onChange: (v: string) => void }) => {
   const [schools, setSchools] = useState<Array<{ id: string; name: string }>>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -454,15 +454,11 @@ function SchoolPicker({ value, onChange, helper }: { value: string; onChange: (v
   }, []);
 
   return (
-    <label className="block">
-  <span className="block text-sm text-white/80 mb-1">School / College</span>
-      <select className="w-full rounded-lg px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white" value={value} onChange={(e) => onChange(e.target.value)}>
-        <option value="" className="text-gray-900">{loading ? 'Loading…' : error ? 'Failed to load' : 'Select school…'}</option>
-        {schools.map((s) => (
-          <option key={s.id} value={s.id} className="text-gray-900">{s.name}</option>
-        ))}
-      </select>
-  {helper && <span className="block text-xs text-white/60 mt-1">{helper}</span>}
-    </label>
+    <select className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-green-400 focus:ring-4 focus:ring-green-200 outline-none transition-all duration-300 bg-white" value={value} onChange={(e) => onChange(e.target.value)}>
+      <option value="" className="text-gray-900">{loading ? 'Loading…' : error ? 'Failed to load' : 'Select school…'}</option>
+      {schools.map((s) => (
+        <option key={s.id} value={s.id} className="text-gray-900">{s.name}</option>
+      ))}
+    </select>
   );
-}
+};
