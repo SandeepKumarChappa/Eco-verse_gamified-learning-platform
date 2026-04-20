@@ -61,12 +61,18 @@ export default function SignInPage() {
 
   const signin = async () => {
     setError(null);
+    const cleanUsername = username.trim();
+    const cleanPassword = password.trim();
+    if (!cleanUsername || !cleanPassword) {
+      setError("Username and password are required.");
+      return;
+    }
     setLoading(true);
     try {
       const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username: cleanUsername, password: cleanPassword }),
       });
       if (!res.ok) throw new Error("Login failed");
       const data = await res.json();
@@ -82,10 +88,10 @@ export default function SignInPage() {
     } catch (e: any) {
       try {
         const st = await fetch(
-          `/api/application-status/${encodeURIComponent(username)}`
+          `/api/application-status/${encodeURIComponent(cleanUsername)}`
         ).then((r) => r.json());
         if (st?.status === "pending") {
-          setPendingUser(username);
+          setPendingUser(cleanUsername);
           setError(null);
         } else {
           setError(e?.message || "Login error");

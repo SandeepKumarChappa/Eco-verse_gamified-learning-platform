@@ -306,11 +306,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Basic login (in-memory; demo only)
   app.post('/api/login', async (req, res) => {
     const { username, password } = req.body ?? {};
-    if (!username || !password) return res.status(400).json({ error: 'Missing fields' });
+    const cleanUsername = typeof username === 'string' ? username.trim() : '';
+    const cleanPassword = typeof password === 'string' ? password.trim() : '';
+    if (!cleanUsername || !cleanPassword) return res.status(400).json({ error: 'Missing fields' });
     // naive check across users
     const users = (storage as any).users as Map<string, any>;
     const roles = (storage as any).roles as Map<string, 'student'|'teacher'|'admin'>;
-    const found = Array.from(users?.values?.() ?? []).find((u) => u.username === username && u.password === password);
+    const found = Array.from(users?.values?.() ?? []).find((u) => u.username === cleanUsername && u.password === cleanPassword);
     if (!found) return res.status(401).json({ ok: false });
     const role = (roles?.get(found.id) ?? 'student') as SessionRole;
 
