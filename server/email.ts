@@ -4,9 +4,24 @@ const MAIL_USER = process.env.GMAIL_USER || process.env.EMAIL;
 const MAIL_PASS = process.env.GMAIL_APP_PASSWORD || process.env.EMAIL_PASS;
 const MAIL_FROM_NAME = process.env.GMAIL_FROM_NAME || 'EcoVerse Platform';
 
+// Validate email credentials on startup
+if (!MAIL_USER || !MAIL_PASS) {
+  console.warn('⚠️  EMAIL_PASS or GMAIL_USER/GMAIL_APP_PASSWORD not configured. Email sending will fail.');
+  console.warn('Debug Info:');
+  console.warn('  GMAIL_USER:', process.env.GMAIL_USER);
+  console.warn('  EMAIL:', process.env.EMAIL);
+  console.warn('  GMAIL_APP_PASSWORD:', process.env.GMAIL_APP_PASSWORD ? '***' : 'undefined');
+  console.warn('  EMAIL_PASS:', process.env.EMAIL_PASS ? '***' : 'undefined');
+  console.warn('Please set EMAIL and EMAIL_PASS in your .env file.');
+} else {
+  console.log('✓ Email configuration detected. User:', MAIL_USER);
+}
+
 // Create Nodemailer transporter for Gmail
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
   auth: {
     user: MAIL_USER,
     pass: MAIL_PASS,
@@ -26,6 +41,10 @@ export interface EmailOptions {
  */
 export async function sendEmail(options: EmailOptions) {
   try {
+    if (!MAIL_USER || !MAIL_PASS) {
+      throw new Error('Email credentials not configured. Set EMAIL and EMAIL_PASS in .env');
+    }
+
     const mailOptions = {
       from: `${MAIL_FROM_NAME} <${MAIL_USER}>`,
       to: options.to,
@@ -36,10 +55,27 @@ export async function sendEmail(options: EmailOptions) {
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent:', info.messageId);
+    console.log('✓ Email sent successfully:', info.messageId);
     return { success: true, messageId: info.messageId };
-  } catch (error) {
-    console.error('Error sending email:', error);
+  } catch (error: any) {
+    const errorCode = error?.code;
+    const errorMessage = error?.message || String(error);
+    
+    console.error('❌ Error sending email:', {
+      code: errorCode,
+      message: errorMessage,
+      recipient: options.to,
+    });
+
+    // Provide helpful error messages
+    if (errorCode === 'EAUTH') {
+      console.error('🔐 EAUTH Error: Gmail authentication failed. Possible causes:');
+      console.error('   1. EMAIL_PASS in .env is incorrect or expired');
+      console.error('   2. Need to generate a new Gmail App Password');
+      console.error('   3. Two-Factor Authentication not enabled on Gmail account');
+      console.error('   Fix: Go to https://myaccount.google.com/security and regenerate app password');
+    }
+
     throw error;
   }
 }

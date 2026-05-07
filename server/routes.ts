@@ -482,9 +482,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         text: `Your OTP is: ${code}. It expires in 5 minutes.`,
         html: `<p>Your OTP is: <strong>${code}</strong>. It expires in 5 minutes.</p>`,
       });
+      console.log(`✓ OTP sent successfully to ${normalizedEmail}`);
       res.json({ ok: true });
     } catch (err) {
       console.error('Email send error:', err);
+      const errorCode = (err as any)?.code;
+      if (errorCode === 'EAUTH') {
+        return res.status(500).json({ 
+          error: 'Email service authentication failed. Please contact support.',
+          details: 'Check EMAIL_PASS in server .env configuration'
+        });
+      }
       res.status(500).json({ error: 'Failed to send OTP email' });
     }
   });

@@ -1,12 +1,16 @@
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 import express, { type Request, Response, NextFunction } from "express";
 import helmet from "helmet";
 import morgan from "morgan";
-import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { ensureUploadsDir } from "./uploads";
 
-dotenv.config();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const envPath = path.resolve(__dirname, '../.env');
+dotenv.config({ path: envPath });
+console.log('📁 Loading .env from:', envPath);
 
 process.env.NODE_ENV = process.env.NODE_ENV || "production";
 process.env.PORT = process.env.PORT || "5000";
@@ -35,6 +39,7 @@ app.use(express.urlencoded({ extended: false, limit: '10mb' }));
   const dbStorage = new DbStorage();
   await dbStorage.seedAdmin();
 
+  const { registerRoutes } = await import('./routes');
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
